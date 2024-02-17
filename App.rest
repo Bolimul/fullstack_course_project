@@ -1,0 +1,76 @@
+###
+
+GET http://localhost:3000/student
+
+###
+
+GET http://localhost:3000/student?name=John3
+
+###
+
+GET http://localhost:3000/student/02221233022
+
+###
+
+GET http://localhost:3000/student/02221233021
+
+
+###
+
+POST http://localhost:3000/student
+Content-Type: application/json
+
+{
+    "name": "Alex 444",
+    "age": 25,
+    "_id": "02221233021"
+}
+
+###
+
+PUT http://localhost:3000/student/02221233021
+Content-Type: application/json
+
+{
+    "name": "Alex 555",
+    "age": 25,
+    "_id": "02221233021"
+}
+
+
+###
+
+DELETE http://localhost:3000/student/02221233021
+
+###
+
+
+POST http://localhost:3000/post
+Content-Type: application/json
+
+{
+    "_id": "1234567",
+    "creator_id": "02221233021",
+    "post_title": "First Post",
+    "post_text": "Some Text"
+}
+
+###
+
+GET http://localhost:3000/post/1234567
+
+###
+
+PUT http://localhost:3000/post/1234567
+Content-Type: application/json
+
+{
+    "_id": "1234567",
+    "creator_id": "02221233021",
+    "post_title": "Updated Post",
+    "post_text": "Updated Text"
+}
+
+###
+
+DELETE http://localhost:3000/post/1234567
