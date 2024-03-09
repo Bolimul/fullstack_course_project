@@ -61,17 +61,12 @@ class BaseController {
         });
     }
     ;
+    //not implemented
     put(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const item = yield this.ItemModel.findById(req.params.id);
-                if (req.body.name != item.name) {
-                    item.name = yield req.body.name;
-                }
-                else if (req.body.age != item.age) {
-                    item.age = yield req.body.age;
-                }
-                item.save();
+                yield item.save();
                 res.status(201).send(item);
             }
             catch (error) {

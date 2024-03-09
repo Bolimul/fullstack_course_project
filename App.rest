@@ -74,3 +74,13 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3000/post/1234567
+
+###
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "123456"
+}

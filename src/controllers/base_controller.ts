@@ -12,10 +12,10 @@ class BaseController<ModelType> {
         try {
           if (req.query.name) {
             const item = await this.ItemModel.find({ name: req.query.name });
-            res.status(200).send(item);
+            return res.status(200).send(item);
           } else {
             const item = await this.ItemModel.find();
-            res.status(200).send(item);
+            return res.status(200).send(item);
           }
         } catch (error) {
           console.log(error);
@@ -27,7 +27,7 @@ class BaseController<ModelType> {
         console.log(req.params);
         try {
           const item = await this.ItemModel.findById(req.params.id);
-          res.status(200).send(item);
+          return res.status(200).send(item);
         } catch (error) {
           console.log(error);
           res.status(400).send(error.message);
@@ -38,7 +38,7 @@ class BaseController<ModelType> {
         console.log("student post ");
         try {
           const item = await this.ItemModel.create(req.body);
-          res.status(201).send(item);
+          return res.status(201).send(item);
         } catch (error) {
           console.log(error);
           res.status(400).send(error.message);
@@ -50,7 +50,7 @@ class BaseController<ModelType> {
         try{
           const item = await this.ItemModel.findById(req.params.id)
           await item.save()
-          res.status(201).send(item)
+          return res.status(201).send(item)
         }catch (error) {
           console.log(error);
           res.status(400).send(error.message);
