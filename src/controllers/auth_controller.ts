@@ -30,7 +30,7 @@ const register = async (req: Request, res: Response) =>
     }
 }
 
-const generateTokens = (userId: String):{accessToken:String, refreshToken:String} => {
+const generateTokens = (userId: string):{accessToken: string, refreshToken: string} => {
     const token = jwt.sign({_id: userId}, process.env.TOKEN_SECRET, {expiresIn: process.env.TOKEN_EXPIRATION})
     const refreshToken = jwt.sign({_id: userId}, process.env.REFRESH_TOKEN_SECRET)
     return {

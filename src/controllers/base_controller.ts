@@ -21,7 +21,7 @@ class BaseController<ModelType> {
           console.log(error);
           res.status(400).send(error.message);
         }
-      };
+      }
       
       async getById( req: Request, res: Response) {
         console.log(req.params);
@@ -32,7 +32,7 @@ class BaseController<ModelType> {
           console.log(error);
           res.status(400).send(error.message);
         }
-      };
+      }
       
       async post(req: Request, res: Response) {
         console.log("student post ");
@@ -43,7 +43,7 @@ class BaseController<ModelType> {
           console.log(error);
           res.status(400).send(error.message);
         }
-      };
+      }
       
       //not implemented
       async put(req: Request, res: Response) {
@@ -55,7 +55,7 @@ class BaseController<ModelType> {
           console.log(error);
           res.status(400).send(error.message);
         }
-      };
+      }
       
       async remove(req: Request, res: Response) {
         try {
@@ -64,7 +64,7 @@ class BaseController<ModelType> {
           console.log(error);
           res.status(400).send(error.message);
         }
-      };
+      }
 
 }
 
