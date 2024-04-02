@@ -3,7 +3,7 @@ import {Request,Response} from "express";
 
 class BaseController<ModelType> {
     ItemModel: mongoose.Model<ModelType>;
-    constructor(ItemModel: any) {
+    constructor(ItemModel: mongoose.Model<ModelType>) {
         this.ItemModel = ItemModel
     }
 
@@ -38,7 +38,7 @@ class BaseController<ModelType> {
         console.log("student post ");
         try {
           const item = await this.ItemModel.create(req.body);
-          return res.status(201).send(item);
+          res.status(201).send(item);
         } catch (error) {
           console.log(error);
           res.status(400).send(error.message);
