@@ -35,7 +35,6 @@ class BaseController<ModelType> {
       }
       
       async post(req: Request, res: Response) {
-        console.log("student post ");
         try {
           const item = await this.ItemModel.create(req.body);
           res.status(201).send(item);

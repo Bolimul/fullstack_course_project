@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 const authMiddleware = async(req: Request, res: Response, next: NextFunction) => 
 {
@@ -11,7 +11,7 @@ const authMiddleware = async(req: Request, res: Response, next: NextFunction) =>
     {
         return res.status(401).send("missing token");
     }
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, async(err, user) => {
         if (err) {
             return res.status(403).send("invalid token"); 
         }

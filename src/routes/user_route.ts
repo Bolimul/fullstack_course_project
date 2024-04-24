@@ -106,7 +106,7 @@ router.get("/:id", authMiddleware, UserController.getById.bind(UserController));
  *           example: '1I23d45'
  *           description: 'Unique ID of the user to retrieve'
  *     responses:
- *       '200':
+ *       '201':
  *         description: 'User's updated details'
  *         content:
  *           application/json:
@@ -131,12 +131,8 @@ router.put("/:id",authMiddleware, UserController.put.bind(UserController));
  *           example: '1I23d45'
  *           description: 'Unique ID of the user to retrieve'
  *     responses:
- *       '200':
+ *       '201':
  *         description: 'User has been deleted'
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
  */
 router.delete("/:id", authMiddleware, UserController.remove.bind(UserController));
 
