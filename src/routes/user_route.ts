@@ -13,7 +13,7 @@ import authMiddleware from "../common/auth_middleware";
 * @swagger
 * components:
 *   schemas:
-*     Student:
+*     User:
 *       type: object
 *       required:
 *         - name
@@ -38,11 +38,11 @@ import authMiddleware from "../common/auth_middleware";
 *           type: string
 *           description: The user password
 *       example:
-*         name: 'jhon'
-*         email: 'testemail@gmail.com'
-*         age: '25'
-*         imgUrl: 'url'(default)
-*         password: 'rvh29vj21msH'
+*           name: 'jhon'
+*           email: 'testemail@gmail.com'
+*           age: '25'
+*           imgUrl: 'url'
+*           password: 'rvh29vj21msH'
 */
 
 /**
@@ -68,21 +68,21 @@ router.get("/",  authMiddleware, UserController.get.bind(UserController));
  * @swagger
  * /user/{id}:
  *   get:
- *     summary: 'Get a user by ID'
+ *     summary: Get a user by ID
  *     tags: [User]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: 'path'
- *         name: 'id'
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
- *           type: 'string'
- *           example: '1I23d45'
- *           description: 'Unique ID of the student to retrieve'
+ *           type: string
+ *           example: 1I23d45
+ *           description: Unique ID of the student to retrieve
  *     responses:
  *       '200':
- *         description: 'User's details'
+ *         description: 'Users details'
  *         content:
  *           application/json:
  *             schema:
@@ -93,21 +93,27 @@ router.get("/:id", authMiddleware, UserController.getById.bind(UserController));
  * @swagger
  * /user/{id}:
  *   put:
- *     summary: 'Update user's data by ID'
+ *     summary: Update users data by ID
  *     tags: [User]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+*          required: true
+*          content:
+*            application/json:
+*              schema:
+*                $ref: '#/components/schemas/User'
  *     parameters:
- *       - in: 'path'
- *         name: 'id'
+ *       - in: path
+ *         name: id
  *         required: true
  *         schema:
- *           type: 'string'
- *           example: '1I23d45'
- *           description: 'Unique ID of the user to retrieve'
+ *           type: string
+ *           example: 1I23d45
+ *           description: Unique ID of the user to update
  *     responses:
- *       '201':
- *         description: 'User's updated details'
+ *       201:
+ *         description: Users updated details
  *         content:
  *           application/json:
  *             schema:
@@ -118,7 +124,7 @@ router.put("/:id",authMiddleware, UserController.put.bind(UserController));
  * @swagger
  * /user/{id}:
  *   delete:
- *     summary: 'Delete User by ID'
+ *     summary: 'Delete user by ID'
  *     tags: [User]
  *     security:
  *       - bearerAuth: []
@@ -129,10 +135,10 @@ router.put("/:id",authMiddleware, UserController.put.bind(UserController));
  *         schema:
  *           type: 'string'
  *           example: '1I23d45'
- *           description: 'Unique ID of the user to retrieve'
+ *           description: 'Unique ID of the user to delete'
  *     responses:
  *       '201':
- *         description: 'User has been deleted'
+ *         description: 'Post has been deleted'
  */
 router.delete("/:id", authMiddleware, UserController.remove.bind(UserController));
 

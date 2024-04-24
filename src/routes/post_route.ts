@@ -21,23 +21,23 @@ import authMiddleware from "../common/auth_middleware";
 *         - post_text
 *         - imgUrl
 *       properties:
-*         creator_id:
-*           type: string
-*           description: The id of the post owner
-*         post_title:
-*           type: string
-*           description: The title of the post
-*         post_text:
-*           type: string
-*           description: The content(text) of the post
-*         imgUrl:
-*           type: string
-*           description: The post link to image on the server. For test purposes there is a "url" link as default to test the user itself
+*           creator_id:
+*             type: string
+*             description: The id of the post owner
+*           post_title:
+*             type: string
+*             description: The title of the post
+*           post_text:
+*             type: string
+*             description: The content(text) of the post
+*           imgUrl:
+*             type: string
+*             description: The post link to image on the server. For test purposes there is a "url" link as default to test the user itself
 *       example:
 *         creator_id: '1I23d45'
 *         post_title: 'The Post title'
 *         post_text: 'The post text ...'
-*         imgUrl: 'url'(default)
+*         imgUrl: 'url'
 */
 
 /**
@@ -59,56 +59,70 @@ import authMiddleware from "../common/auth_middleware";
 *                  $ref: '#/components/schemas/Post'
 */
 router.get("/",authMiddleware, PostController.get.bind(PostController));
+
 /**
  * @swagger
  * /post/{id}:
  *   get:
- *     summary: 'Get a post by ID'
+ *     summary: Get a post by ID
  *     tags: [Post]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - in: 'path'
- *         name: 'id'
- *         required: true
- *         schema:
- *           type: 'string'
- *           example: '1I23d45'
- *           description: 'Unique ID of the post to retrieve'
+ *       requestBody:
+*          required: true
+*          content:
+*            application/json:
+*              schema:
+*                $ref: '#/components/schemas/Post'
  *     responses:
  *       '200':
- *         description: 'User's details'
+ *         description: Post details
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
  */
 router.get("/:id",authMiddleware, PostController.getById.bind(PostController));
+
 /**
  * @swagger
- * /post/
- *   get:
- *     summary: 'Post a post'
+ * /post:
+ *   post:
+ *     summary: Post a post
  *     tags: [Post]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+*          required: true
+*          content:
+*            application/json:
+*              schema:
+*                $ref: '#/components/schemas/Post'
  *     responses:
  *       '200':
- *         description: 'Post details'
+ *         description: Post details
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
  */
 router.post("/",authMiddleware, PostController.post.bind(PostController));
+
 /**
  * @swagger
  * /post/{id}:
- *   get:
- *     summary: 'Update post by ID'
+ *   put:
+ *     summary: Update post by ID
  *     tags: [Post]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+*          required: true
+*          content:
+*            application/json:
+*              schema:
+*                $ref: '#/components/schemas/Post'
  *     parameters:
  *       - in: 'path'
  *         name: 'id'
@@ -119,17 +133,18 @@ router.post("/",authMiddleware, PostController.post.bind(PostController));
  *           description: 'Unique ID of the post to update'
  *     responses:
  *       '201':
- *         description: 'Updated post details'
+ *         description: Updated post details
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
  */
 router.put("/:id",authMiddleware, PostController.put.bind(PostController));
+
 /**
  * @swagger
  * /post/{id}:
- *   get:
+ *   delete:
  *     summary: 'Delete post by ID'
  *     tags: [Post]
  *     security:

@@ -67,7 +67,7 @@ const login = async (req: Request, res: Response) =>
             return res.status(400).send("invalid user or password")
         }
         const {accessToken, refreshToken} = generateTokens(user._id.toString())
-        if(user.tokens == null) {
+        if(user.tokens.length == 0) {
             user.tokens = [refreshToken.toString()]
         }else {
             user.tokens.push(refreshToken.toString());
@@ -80,9 +80,34 @@ const login = async (req: Request, res: Response) =>
     }
 }
 
-const logout = (req: Request, res: Response) => 
+const logout = async(req: Request, res: Response) => 
 {
-    res.status(400).send("logout")
+    const authHeader = req.headers['authorization']
+    const refreshToken = authHeader && authHeader.split(' ')[1];
+    if(refreshToken == null)
+    {
+        return res.status(401).send("missing token");
+    }
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async(err, userInfo: {_id: string}) => {
+        if (err) {
+            return res.status(401).send("invalid token"); 
+        }
+        try {
+            const user = await User.findById(userInfo._id);
+            if (!user.tokens == null || !user.tokens.includes(refreshToken)) {
+                user.tokens = [];
+                await user.save();
+                return res.status(401).send("No refresh tokens to use")
+            }else{
+                user.tokens = user.tokens.filter(token => token !== refreshToken);
+                await user.save()
+                return res.status(200).send()
+            }
+        } catch (error) {
+            console.log(error);
+            return res.status(400).send(error.message)
+        }
+    });
 }
 
 const refresh = async (req: Request, res: Response) => 
@@ -97,7 +122,7 @@ const refresh = async (req: Request, res: Response) =>
     //verify token
     jwt.verify(oldRefreshToken, process.env.REFRESH_TOKEN_SECRET, async(err, userInfo: {_id: string}) => {
         if (err) {
-            return res.status(403).send("invalid token"); 
+            return res.status(403).send(err.name); 
         }
         try {
             const user = await User.findById(userInfo._id);

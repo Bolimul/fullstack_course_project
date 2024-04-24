@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+import { request } from "http";
 import jwt from 'jsonwebtoken';
+import auth_controller from "../controllers/auth_controller";
 
 const authMiddleware = async(req: Request, res: Response, next: NextFunction) => 
 {

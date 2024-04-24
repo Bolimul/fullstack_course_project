@@ -85,7 +85,33 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const logout = (req, res) => {
-    res.status(400).send("logout");
+    const authHeader = req.headers['authorization'];
+    const refreshToken = authHeader && authHeader.split(' ')[1];
+    if (refreshToken == null) {
+        return res.status(401).send("missing token");
+    }
+    jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, userInfo) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err) {
+            return res.status(401).send("invalid token");
+        }
+        try {
+            const user = yield user_model_1.default.findById(userInfo._id);
+            if (!user.tokens == null || !user.tokens.includes(refreshToken)) {
+                user.tokens = [];
+                yield user.save();
+                return res.status(401);
+            }
+            else {
+                user.tokens = user.tokens.filter(token => token !== refreshToken);
+                yield user.save();
+                return res.status(200);
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(400).send(error.message);
+        }
+    }));
 };
 const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //extract token from header
@@ -97,7 +123,7 @@ const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //verify token
     jsonwebtoken_1.default.verify(oldRefreshToken, process.env.REFRESH_TOKEN_SECRET, (err, userInfo) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
-            return res.status(403).send("invalid token");
+            return res.status(403).send(err.name);
         }
         try {
             const user = yield user_model_1.default.findById(userInfo._id);

@@ -47,7 +47,6 @@ class BaseController {
     }
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("student post ");
             try {
                 const item = yield this.ItemModel.create(req.body);
                 res.status(201).send(item);
@@ -58,7 +57,7 @@ class BaseController {
             }
         });
     }
-    //not implemented
+    //implemented (works with implementations in derived classes)
     put(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -75,6 +74,7 @@ class BaseController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.ItemModel.findByIdAndDelete(req.params.id);
+                res.status(201).send();
             }
             catch (error) {
                 console.log(error);

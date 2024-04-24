@@ -17,7 +17,7 @@ const user = {
 
 let app: Express;
 let accessToken = "";
-let refreshToken = ""
+let refreshToken = "";
 beforeAll(async() => {
     app = await appInit();
     console.log("beforeAll");
@@ -111,5 +111,19 @@ describe("Auth tests", () => {
 
         const res3 = await request(app).get("/auth/refresh").set('Authorization', 'Bearer ' + refreshToken).send();
         expect(res3.statusCode).not.toBe(200);
+    })
+
+    test("logout", async() => {
+        const res = await request(app).post("/auth/login").send(user);
+        expect(res.statusCode).toBe(200);
+        console.log(res.body)
+        refreshToken = res.body.refreshToken;
+        const res2 = await request(app).post("/auth/logout").set('Authorization', 'Bearer ' + refreshToken).send();
+        expect(res2.statusCode).toBe(200);
+    })
+
+    test("logout without refresh tokens", async() => {
+        const res2 = await request(app).post("/auth/logout").set('Authorization', 'Bearer ' + refreshToken).send();
+        expect(res2.statusCode).toBe(401);
     })
 });

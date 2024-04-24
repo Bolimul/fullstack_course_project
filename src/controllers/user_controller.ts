@@ -1,6 +1,7 @@
 import User, { IUser } from "../models/user_model";
 import {Request,Response} from "express";
 import BaseController from "./base_controller";
+import bcrypt from "bcrypt"
 
 //const studentController = new BaseController<IUser>(User)
 class UserController extends BaseController<IUser> {
@@ -15,7 +16,6 @@ class UserController extends BaseController<IUser> {
             item.email = req.body.email;
             item.age = req.body.age;
             item.imgUrl = req.body.imgUrl;
-            item.password = req.body.password;
             req.body = item;
             super.post(req, res);
         }catch(err){

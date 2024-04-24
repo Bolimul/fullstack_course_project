@@ -27,6 +27,19 @@ class PostController extends base_controller_1.default {
             _super.post.call(this, req, res);
         });
     }
+    put(req, res) {
+        const _super = Object.create(null, {
+            post: { get: () => super.post }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            let item = yield this.ItemModel.findById(req.params.id);
+            item.post_title = req.body.post_title;
+            item.post_text = req.body.post_text;
+            item.imgUrl = req.body.imgUrl;
+            req.body = item;
+            _super.post.call(this, req, res);
+        });
+    }
 }
 exports.default = new PostController();
 //# sourceMappingURL=post_controller.js.map
