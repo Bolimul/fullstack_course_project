@@ -7,7 +7,7 @@
     "start": "tsc && node dist/src/Server.js",
     "dev": "copy .env_dev .env && nodemon ./src/Server.ts",
     "test": "copy .env_test .env && jest --detectOpenHandles --coverage --forceExit",
-    "testUser": "copy .env_test .env && jest --detectOpenHandles --forceExit ./src/tests/student.test.ts",
+    "testUser": "copy .env_test .env && jest --detectOpenHandles --forceExit ./src/tests/user.test.ts",
     "testPost": "copy .env_test .env && jest --detectOpenHandles --forceExit ./src/tests/post.test.ts",
     "testAuth": "copy .env_test .env && jest --detectOpenHandles --forceExit --runInBand ./src/tests/auth.test.ts",
     "testFile": "copy .env_test .env && jest --detectOpenHandles --forceExit --runInBand  ./src/tests/file.test.ts",
