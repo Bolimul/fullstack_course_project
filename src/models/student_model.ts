@@ -3,7 +3,7 @@ import mongoose from "mongoose";
  export interface IStudent {
   name: string;
   _id: string;
-  age: number;
+  imgUrl: string;
 }
 
 const studentSchema = new mongoose.Schema<IStudent>({
@@ -15,8 +15,8 @@ const studentSchema = new mongoose.Schema<IStudent>({
     type: String,
     required: true,
   },
-  age: {
-    type: Number,
+  imgUrl: {
+    type: String,
     required: true,
   },
 });

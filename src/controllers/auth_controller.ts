@@ -6,6 +6,9 @@ const register = async (req: Request, res: Response) =>
 {
     console.log(req.body)
     const email = req.body.email
+    const name = req.body.name
+    const age = req.body.age
+    const imgUrl = req.body.imgUrl
     const password = req.body.password
     if(email == null || password == null)
     {
@@ -20,7 +23,10 @@ const register = async (req: Request, res: Response) =>
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
         const newUser = await User.create({
+            'name': name,
+            'age': age,
             'email': email,
+            'imgUrl': imgUrl,
             'password': hashedPassword
         })
         return res.status(200).send(newUser)

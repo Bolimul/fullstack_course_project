@@ -11,6 +11,14 @@ class PostController extends BaseController<IPost> {
         req.body.creator_id = req.body.user._id;
         super.post(req, res);
     }
+
+    async put(req: Request, res: Response) {
+        let item = await this.ItemModel.findById(req.params.id)
+        item.post_title = req.body.post_title
+        item.post_text = req.body.post_text
+        req.body = item
+        super.post(req, res);
+    }
 }
 
 export default new PostController()

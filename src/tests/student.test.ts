@@ -10,11 +10,11 @@ let app: Express;
 beforeAll(async() => {
     app = await appInit();
     console.log("beforeAll");
-    await Student.deleteMany();
-    await User.deleteMany({email: testUser.email})
     await request(app).post("/auth/register").send(testUser)
     const res = await request(app).post("/auth/login").send(testUser)
+    const user = await User.find({email: testUser.email})
     testUser.accessToken = res.body.accessToken
+    testUser._id = user[0]._id.toString()
 });
 
 afterAll(async () => {
@@ -23,54 +23,52 @@ afterAll(async () => {
 });
 
 const testUser = {
+    _id: null,
+    name: "ASDFG",
+    age: "23",
     email: "teststudent@gmail.com",
     password: "123456",
+    imgUrl: "url",
     accessToken: null
 }
 
-const students = [
-    {
-        name: "John Doe",
-        _id: "12345",
-        age:22
-    },
-
-    {
-        name: "Jane Doe 2",
-        _id: "12346",
-        age:22
-    }
-]
+const updatedTestStudent = {
+    name: "ASDFGh",
+    age: "236",
+    email: "updatedstudent@gmail.com",
+    password: "123457",
+    imgUrl: "url",
+}
 
 describe("Student tests", () => {
     test("Test Student get all", async() => {
-        const res = await request(app).get("/student").set('Authorization', 'Bearer ' + testUser.accessToken);
+        const res = await request(app).get("/user").set('Authorization', 'Bearer ' + testUser.accessToken);
         expect(res.statusCode).toBe(200);
         const data = res.body;
-        expect(data).toEqual([]);
+        expect(data[0].name).toBe(testUser.name);
+        expect(data[0].age).toBe(testUser.age);
+        expect(data[0].email).toBe(testUser.email);
     });
 
-    test('POST /student', async() => {
-        const res  =await request(app)
-        .post('/student').set('Authorization', 'Bearer ' + testUser.accessToken)
-        .send(students[0]);
-        expect(res.statusCode).toEqual(201);
-        expect(res.body.name).toEqual(students[0].name);
-
-        const res2 = await request(app).get("/student").set('Authorization', 'Bearer ' + testUser.accessToken);
-        expect(res2.statusCode).toBe(200);
-        const data = res2.body;
-        expect(data[0].name).toBe(students[0].name);
-        expect(data[0].age).toBe(students[0].age);
-        expect(data[0]._id).toBe(students[0]._id);
+    test("GET /user/:id", async () => {
+        const res = await request(app).get("/user/" + testUser._id).set('Authorization', 'Bearer ' + testUser.accessToken);
+        expect(res.statusCode).toBe(200)
+        expect(res.body.name).toBe(testUser.name);
+        expect(res.body.age).toBe(testUser.age);
+        expect(res.body._id).toBe(testUser._id);
     })
 
-    test("GET /student/:id", async () => {
-        const res = await request(app).get("/student/" + students[0]._id).set('Authorization', 'Bearer ' + testUser.accessToken);
-        expect(res.statusCode).toBe(200)
-        expect(res.body.name).toBe(students[0].name);
-        expect(res.body.age).toBe(students[0].age);
-        expect(res.body._id).toBe(students[0]._id);
+    test("PUT /user/:id", async () => {
+        const res = (await request(app).put("/user/" + testUser._id).send(updatedTestStudent).set('Authorization', 'Bearer ' + testUser.accessToken));
+        expect(res.statusCode).toBe(201)
+        expect(res.body.name).toBe(updatedTestStudent.name);
+        expect(res.body.age).toBe(updatedTestStudent.age);
+        expect(res.body.email).toBe(updatedTestStudent.email);
+    })
+
+    test("DELETE /user/:id", async () => {
+        const res = (await request(app).delete("/user/" + testUser._id).set('Authorization', 'Bearer ' + testUser.accessToken));
+        expect(res.statusCode).toBe(201)
     })
 
 

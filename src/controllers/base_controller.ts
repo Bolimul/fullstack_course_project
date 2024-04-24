@@ -45,12 +45,11 @@ class BaseController<ModelType> {
         }
       }
       
-      //not implemented
+      //implemented (works with implementations in derived classes)
       async put(req: Request, res: Response) {
         try{
-          const item = await this.ItemModel.findById(req.params.id)
-          await item.save()
-          return res.status(201).send(item)
+          await req.body.save()
+          res.status(201).send(req.body)
         }catch (error) {
           console.log(error);
           res.status(400).send(error.message);
@@ -60,6 +59,7 @@ class BaseController<ModelType> {
       async remove(req: Request, res: Response) {
         try {
           await this.ItemModel.findByIdAndDelete(req.params.id)
+          res.status(201).send()
         } catch (error) {
           console.log(error);
           res.status(400).send(error.message);

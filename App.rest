@@ -17,24 +17,30 @@ GET http://localhost:3000/student/02221233021
 
 ###
 
-POST http://localhost:3000/student
+POST http://localhost:3000/user
 Content-Type: application/json
 
 {
     "name": "Alex 444",
     "age": 25,
-    "_id": "02221233021"
+    "email": "test@gamil.com",
+    "imgUrl": "url",
+    "password": "12345"
+
 }
 
 ###
 
-PUT http://localhost:3000/student/02221233021
+PUT http://localhost:3000/user/6628c5a814ab193114a63215
 Content-Type: application/json
 
 {
     "name": "Alex 555",
-    "age": 25,
-    "_id": "02221233021"
+    "age": 26,
+    "email": "test@gmail.com",
+    "imgUrl": "url1",
+    "password": "123456"
+
 }
 
 

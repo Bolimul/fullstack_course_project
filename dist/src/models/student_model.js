@@ -13,8 +13,8 @@ const studentSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    age: {
-        type: Number,
+    imgUrl: {
+        type: String,
         required: true,
     },
 });

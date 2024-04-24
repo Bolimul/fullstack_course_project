@@ -8,8 +8,11 @@ import User from '../models/user_model'
 
 
 const user = {
-    "email": "teszt@gmail.com",
-    "password": "123456"
+    name: "ASDFG",
+    age: "23",
+    email: "teststudent@gmail.com",
+    password: "123456",
+    imgUrl: "url",
 }
 
 let app: Express;
@@ -43,11 +46,11 @@ describe("Auth tests", () => {
         expect(accessToken).not.toBeNull();
         expect(refreshToken).not.toBeNull();
 
-        const res2 = await request(app).get("/student").set('Authorization', 'Bearer ' + accessToken);
+        const res2 = await request(app).get("/user").set('Authorization', 'Bearer ' + accessToken);
         expect(res2.statusCode).toBe(200);
 
         const fakeToken = accessToken + '0'
-        const res3 = await request(app).get("/student").set('Authorization', 'Bearer ' + fakeToken);
+        const res3 = await request(app).get("/user").set('Authorization', 'Bearer ' + fakeToken);
         expect(res3.statusCode).not.toBe(200);
     });
     jest.setTimeout(100000);
@@ -70,16 +73,16 @@ describe("Auth tests", () => {
         expect(accessToken).not.toBeNull();
         expect(refreshToken2).not.toBeNull();
 
-        const res3 = await request(app).get("/student").set('Authorization', 'Bearer ' + accessToken);
+        const res3 = await request(app).get("/user").set('Authorization', 'Bearer ' + accessToken);
         expect(res3.statusCode).toBe(200);
         await timeout(6000)
-        const res4 = await request(app).get("/student").set('Authorization', 'Bearer ' + accessToken);
+        const res4 = await request(app).get("/user").set('Authorization', 'Bearer ' + accessToken);
         expect(res4.statusCode).not.toBe(200);
     })
 
     test("refresh token after expiration", async () => {
         //await timeout(6000);
-        const res = await request(app).get("/student").set('Authorization', 'Bearer ' + accessToken);
+        const res = await request(app).get("/user").set('Authorization', 'Bearer ' + accessToken);
         expect(res.statusCode).not.toBe(200);
         const res1 = await request(app).get("/auth/refresh").set('Authorization', 'Bearer ' + refreshToken).send();
         expect(res1.statusCode).toBe(200);
@@ -87,7 +90,7 @@ describe("Auth tests", () => {
         refreshToken = res1.body.refreshToken;
         expect(accessToken).not.toBeNull();
         expect(refreshToken).not.toBeNull();
-        const res3 = await request(app).get("/student").set('Authorization', 'Bearer ' + accessToken);
+        const res3 = await request(app).get("/user").set('Authorization', 'Bearer ' + accessToken);
         expect(res3.statusCode).toBe(200);
     })
 

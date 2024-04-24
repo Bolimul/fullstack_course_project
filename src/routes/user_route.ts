@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import StudentController from "../controllers/student_controller";
+import UserController from "../controllers/user_controller";
 import authMiddleware from "../common/auth_middleware";
 /**
 * @swagger
@@ -53,7 +53,7 @@ import authMiddleware from "../common/auth_middleware";
 *               items:
 *                  $ref: '#/components/schemas/Student'
 */
-router.get("/", authMiddleware, StudentController.get.bind(StudentController));
+router.get("/",  authMiddleware, UserController.get.bind(UserController));
 /**
  * @swagger
  * /student/{id}:
@@ -78,33 +78,10 @@ router.get("/", authMiddleware, StudentController.get.bind(StudentController));
  *             schema:
  *               $ref: '#/components/schemas/Student'
  */
-router.get("/:id", authMiddleware, StudentController.getById.bind(StudentController));
-/**
- * @swagger
- * /student:
- *   post:
- *     summary: 'Create a new student'
- *     tags: [Student]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Student'
- *     responses:
- *       '201':
- *         description: 'Student created successfully'
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Student'
- */
-router.post("/", authMiddleware, StudentController.post.bind(StudentController));
+router.get("/:id", authMiddleware, UserController.getById.bind(UserController));
 
-router.put("/:id", authMiddleware, StudentController.put.bind(StudentController));
+router.put("/:id",authMiddleware, UserController.put.bind(UserController));
 
-router.delete("/:id", authMiddleware, StudentController.remove.bind(StudentController));
+router.delete("/:id", authMiddleware, UserController.remove.bind(UserController));
 
 export default router;

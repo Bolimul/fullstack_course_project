@@ -19,11 +19,11 @@ class BaseController {
             try {
                 if (req.query.name) {
                     const item = yield this.ItemModel.find({ name: req.query.name });
-                    res.status(200).send(item);
+                    return res.status(200).send(item);
                 }
                 else {
                     const item = yield this.ItemModel.find();
-                    res.status(200).send(item);
+                    return res.status(200).send(item);
                 }
             }
             catch (error) {
@@ -32,13 +32,12 @@ class BaseController {
             }
         });
     }
-    ;
     getById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(req.params);
             try {
                 const item = yield this.ItemModel.findById(req.params.id);
-                res.status(200).send(item);
+                return res.status(200).send(item);
             }
             catch (error) {
                 console.log(error);
@@ -46,7 +45,6 @@ class BaseController {
             }
         });
     }
-    ;
     post(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log("student post ");
@@ -60,14 +58,12 @@ class BaseController {
             }
         });
     }
-    ;
     //not implemented
     put(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const item = yield this.ItemModel.findById(req.params.id);
-                yield item.save();
-                res.status(201).send(item);
+                yield req.body.save();
+                res.status(201).send(req.body);
             }
             catch (error) {
                 console.log(error);
@@ -75,7 +71,6 @@ class BaseController {
             }
         });
     }
-    ;
     remove(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -87,7 +82,6 @@ class BaseController {
             }
         });
     }
-    ;
 }
 exports.default = BaseController;
 //# sourceMappingURL=base_controller.js.map
