@@ -81,7 +81,7 @@ describe("Auth tests", () => {
     })
 
     test("refresh token after expiration", async () => {
-        //await timeout(6000);
+        await timeout(6000);
         const res = await request(app).get("/user").set('Authorization', 'Bearer ' + accessToken);
         expect(res.statusCode).not.toBe(200);
         const res1 = await request(app).get("/auth/refresh").set('Authorization', 'Bearer ' + refreshToken).send();

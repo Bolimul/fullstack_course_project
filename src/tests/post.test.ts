@@ -47,12 +47,14 @@ describe("Post tests", () => {
         creator_id: testUser._id,
         post_id: null,
         post_title: "this is my post title",
-        post_text: "this is my post about ..."
+        post_text: "this is my post about ...",
+        imgUrl: "url"
     }
 
     const updatedPost = {
         post_title: "This is my updated text post about ...",
-        post_text: "This is my updated post title ..."
+        post_text: "This is my updated post title ...",
+        imgUrl: "url1"
     }
 
     test("POST new post to empty collection", async () => {

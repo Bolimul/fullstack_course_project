@@ -4,6 +4,7 @@ export interface IPost {
     creator_id: string;
     post_title: string;
     post_text: string;
+    imgUrl: string
   }
 
 const post_schema = new mongoose.Schema<IPost>({
@@ -16,6 +17,10 @@ const post_schema = new mongoose.Schema<IPost>({
         required: true
     },
     post_text: {
+        type: String,
+        required: true
+    },
+    imgUrl: {
         type: String,
         required: true
     }
