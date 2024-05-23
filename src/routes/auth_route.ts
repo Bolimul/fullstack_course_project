@@ -24,7 +24,7 @@ import authController from "../controllers/auth_controller"
 * @swagger
 * components:
 *   schemas:
-*       User:
+*       Auth:
 *           type: object
 *           required:
 *               - email

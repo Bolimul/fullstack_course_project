@@ -112,8 +112,12 @@ describe("Auth tests", () => {
         expect(res.statusCode).toBe(200);
         console.log(res.body);
         refreshToken = res.body.refreshToken;
-        const res2 = yield (0, supertest_1.default)(app).get("/auth/logout").set('Authorization', 'Bearer ' + refreshToken).send();
+        const res2 = yield (0, supertest_1.default)(app).post("/auth/logout").set('Authorization', 'Bearer ' + refreshToken).send();
         expect(res2.statusCode).toBe(200);
+    }));
+    test("logout without refresh tokens", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res2 = yield (0, supertest_1.default)(app).post("/auth/logout").set('Authorization', 'Bearer ' + refreshToken).send();
+        expect(res2.statusCode).toBe(401);
     }));
 });
 //# sourceMappingURL=auth.test.js.map

@@ -70,21 +70,21 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return res.status(400).send("invalid user or password");
         }
         const { accessToken, refreshToken } = generateTokens(user._id.toString());
-        if (user.tokens == null) {
+        if (user.tokens.length == 0) {
             user.tokens = [refreshToken.toString()];
         }
         else {
             user.tokens.push(refreshToken.toString());
         }
         yield user.save();
-        return res.status(200).send({ 'accessToken': accessToken, 'refreshToken': refreshToken });
+        return res.status(200).send({ 'accessToken': accessToken, 'refreshToken': refreshToken, 'userID': user._id.toString() });
     }
     catch (error) {
         console.log(error);
         return res.status(400).send(error.message);
     }
 });
-const logout = (req, res) => {
+const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const authHeader = req.headers['authorization'];
     const refreshToken = authHeader && authHeader.split(' ')[1];
     if (refreshToken == null) {
@@ -99,12 +99,12 @@ const logout = (req, res) => {
             if (!user.tokens == null || !user.tokens.includes(refreshToken)) {
                 user.tokens = [];
                 yield user.save();
-                return res.status(401);
+                return res.status(401).send("No refresh tokens to use");
             }
             else {
                 user.tokens = user.tokens.filter(token => token !== refreshToken);
                 yield user.save();
-                return res.status(200);
+                return res.status(200).send();
             }
         }
         catch (error) {
@@ -112,7 +112,7 @@ const logout = (req, res) => {
             return res.status(400).send(error.message);
         }
     }));
-};
+});
 const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //extract token from header
     const authHeader = req.headers['authorization'];

@@ -94,6 +94,12 @@ router.get("/:id", auth_middleware_1.default, post_controller_1.default.getById.
  *     tags: [Post]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+*          required: true
+*          content:
+*            application/json:
+*              schema:
+*                $ref: '#/components/schemas/Post'
  *     responses:
  *       '200':
  *         description: Post details
@@ -111,6 +117,12 @@ router.post("/", auth_middleware_1.default, post_controller_1.default.post.bind(
  *     tags: [Post]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+*          required: true
+*          content:
+*            application/json:
+*              schema:
+*                $ref: '#/components/schemas/Post'
  *     parameters:
  *       - in: 'path'
  *         name: 'id'

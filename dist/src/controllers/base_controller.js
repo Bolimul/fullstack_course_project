@@ -61,7 +61,7 @@ class BaseController {
     put(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield req.body.save();
+                yield req.body.update();
                 res.status(201).send(req.body);
             }
             catch (error) {

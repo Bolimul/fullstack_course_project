@@ -30,7 +30,6 @@ class UserController extends base_controller_1.default {
                 item.email = req.body.email;
                 item.age = req.body.age;
                 item.imgUrl = req.body.imgUrl;
-                item.password = req.body.password;
                 req.body = item;
                 _super.post.call(this, req, res);
             }

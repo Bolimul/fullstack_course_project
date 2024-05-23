@@ -47,7 +47,7 @@ class BaseController<ModelType> {
       //implemented (works with implementations in derived classes)
       async put(req: Request, res: Response) {
         try{
-          await req.body.save()
+          await req.body.update()
           res.status(201).send(req.body)
         }catch (error) {
           console.log(error);

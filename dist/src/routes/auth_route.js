@@ -25,7 +25,7 @@ const auth_controller_1 = __importDefault(require("../controllers/auth_controlle
 * @swagger
 * components:
 *   schemas:
-*       User:
+*       Auth:
 *           type: object
 *           required:
 *               - email
@@ -102,20 +102,20 @@ router.post("/login", auth_controller_1.default.login);
 /**
 * @swagger
 * /auth/logout:
-*   get:
-*       summary: logout a user
-*       tags: [Auth]
-*       description: need to provide the refresh token in the auth header
-*       security:
-*           - bearerAuth: []
-*       responses:
-*           200:
-*               description: logout completed successfully
+*   post:
+*     summary: logout a user
+*     tags: [Auth]
+*     description: need to provide the refresh token in the auth header
+*     security:
+*       - bearerAuth: []
+*     responses:
+*       200:
+*         description: logout completed successfully
 */
 router.post("/logout", auth_controller_1.default.logout);
 /**
 * @swagger
-* /auth/refreshToken:
+* /auth/refresh:
 *   get:
 *       summary: get a new access token using the refresh token
 *       tags: [Auth]
@@ -124,7 +124,7 @@ router.post("/logout", auth_controller_1.default.logout);
 *           - bearerAuth: []
 *       responses:
 *           200:
-*               description: The acess & refresh tokens
+*               description: The access & refresh tokens
 *               content:
 *                   application/json:
 *                       schema:

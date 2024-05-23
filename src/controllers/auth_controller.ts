@@ -73,7 +73,7 @@ const login = async (req: Request, res: Response) =>
             user.tokens.push(refreshToken.toString());
         }
         await user.save()
-        return res.status(200).send({'accessToken': accessToken, 'refreshToken': refreshToken})
+        return res.status(200).send({'accessToken': accessToken, 'refreshToken': refreshToken, 'userID': user._id.toString()})
     } catch (error) {
         console.log(error)
         return res.status(400).send(error.message)
