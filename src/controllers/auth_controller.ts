@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import User from "../models/user_model"
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
+import { OAuth2Client } from "google-auth-library"
 const register = async (req: Request, res: Response) => 
 {
     console.log(req.body)
@@ -33,6 +34,45 @@ const register = async (req: Request, res: Response) =>
     } catch (error) {
         console.log(error)
         return res.status(400).send(error.message)
+    }
+}
+
+const client = new OAuth2Client()
+const googleSignin = async (req: Request, res: Response) => 
+{
+    const credential = req.body.credential;
+    console.log(credential)
+    try {
+        const ticket = await client.verifyIdToken(
+            {   idToken: credential, 
+                audience: process.env.GOOGLE_CLIENT_ID
+            })
+        const payload = ticket.getPayload()
+        const email = payload?.email
+        if(email != null) {
+            let user = await User.findOne({'email': email})
+            if(user == null) {
+                const name = payload?.given_name
+                const imgUrl = payload?.picture
+                user = await User.create({
+                    'name': name,
+                    'email': email,
+                    'age': 'Update your age',
+                    'imgUrl': imgUrl,
+                    'password': ' '
+                })
+            }
+            const {accessToken, refreshToken} = generateTokens(user._id.toString())
+            if(user.tokens.length == 0) {
+                user.tokens = [refreshToken.toString()]
+            }else {
+                user.tokens.push(refreshToken.toString());
+            }
+            await user.save()
+            return res.status(200).send({'accessToken': accessToken, 'refreshToken': refreshToken, 'userID': user._id.toString()})
+        }
+    } catch (error) {
+        return res.status(400).send("error missing email or password")
     }
 }
 
@@ -156,6 +196,7 @@ const refresh = async (req: Request, res: Response) =>
 
 export default{
     register,
+    googleSignin,
     login,
     logout,
     refresh

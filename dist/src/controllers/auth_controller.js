@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_model_1 = __importDefault(require("../models/user_model"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const google_auth_library_1 = require("google-auth-library");
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     const email = req.body.email;
@@ -44,6 +45,41 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     catch (error) {
         console.log(error);
         return res.status(400).send(error.message);
+    }
+});
+const client = new google_auth_library_1.OAuth2Client();
+const googleSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const credential = req.body.credential;
+    try {
+        const ticket = yield client.verifyIdToken({ idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID
+        });
+        const payload = ticket.getPayload();
+        const email = payload === null || payload === void 0 ? void 0 : payload.email;
+        if (email != null) {
+            let user = yield user_model_1.default.findOne({ 'email': email });
+            if (user == null) {
+                user = yield user_model_1.default.create({
+                    'name': payload === null || payload === void 0 ? void 0 : payload.given_name,
+                    'email': email,
+                    'age': 'Update your age',
+                    'password': '',
+                    'imgUrl': payload === null || payload === void 0 ? void 0 : payload.picture,
+                });
+            }
+            const { accessToken, refreshToken } = generateTokens(user._id.toString());
+            if (user.tokens.length == 0) {
+                user.tokens = [refreshToken.toString()];
+            }
+            else {
+                user.tokens.push(refreshToken.toString());
+            }
+            yield user.save();
+            return res.status(200).send({ 'accessToken': accessToken, 'refreshToken': refreshToken, 'userID': user._id.toString() });
+        }
+    }
+    catch (error) {
+        return res.status(400).send("error missing email or password");
     }
 });
 const generateTokens = (userId) => {
@@ -151,6 +187,7 @@ const refresh = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.default = {
     register,
+    googleSignin,
     login,
     logout,
     refresh
