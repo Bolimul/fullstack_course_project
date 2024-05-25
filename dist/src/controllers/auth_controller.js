@@ -50,6 +50,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 const client = new google_auth_library_1.OAuth2Client();
 const googleSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const credential = req.body.credential;
+    console.log(credential);
     try {
         const ticket = yield client.verifyIdToken({ idToken: credential,
             audience: process.env.GOOGLE_CLIENT_ID
@@ -59,12 +60,14 @@ const googleSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (email != null) {
             let user = yield user_model_1.default.findOne({ 'email': email });
             if (user == null) {
+                const name = payload === null || payload === void 0 ? void 0 : payload.given_name;
+                const imgUrl = payload === null || payload === void 0 ? void 0 : payload.picture;
                 user = yield user_model_1.default.create({
-                    'name': payload === null || payload === void 0 ? void 0 : payload.given_name,
+                    'name': name,
                     'email': email,
                     'age': 'Update your age',
-                    'password': '',
-                    'imgUrl': payload === null || payload === void 0 ? void 0 : payload.picture,
+                    'imgUrl': imgUrl,
+                    'password': ' '
                 });
             }
             const { accessToken, refreshToken } = generateTokens(user._id.toString());

@@ -47,6 +47,13 @@ const updatedTestStudent = {
     imgUrl: "url",
 };
 describe("Student tests", () => {
+    test("GET /user/", () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(app).get("/user").set('Authorization', 'Bearer ' + testUser.accessToken);
+        expect(res.statusCode).toBe(200);
+        expect(res.body[2].name).toBe(testUser.name);
+        expect(res.body[2].age).toBe(testUser.age);
+        expect(res.body[2]._id).toBe(testUser._id);
+    }));
     test("GET /user/:id", () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(app).get("/user/" + testUser._id).set('Authorization', 'Bearer ' + testUser.accessToken);
         expect(res.statusCode).toBe(200);

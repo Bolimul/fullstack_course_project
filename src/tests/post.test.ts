@@ -20,13 +20,14 @@ let app: Express;
 beforeAll(async() => {
     app = await appInit();
     console.log("beforeAll");
-    await Post.deleteMany();
+    
     await User.deleteMany({email: testUser.email})
     await request(app).post("/auth/register").send(testUser)
     const res = await request(app).post("/auth/login").send(testUser)
     const user = await User.find({email: testUser.email})
     testUser.accessToken = res.body.accessToken
     testUser._id = user[0]._id.toString()
+    await Post.deleteOne({creator_id: testUser._id})
 });
 
 afterAll(async () => {

@@ -40,6 +40,14 @@ const updatedTestStudent = {
 }
 
 describe("Student tests", () => {
+    test("GET /user/", async () => {
+        const res = await request(app).get("/user").set('Authorization', 'Bearer ' + testUser.accessToken);
+        expect(res.statusCode).toBe(200)
+        expect(res.body[2].name).toBe(testUser.name);
+        expect(res.body[2].age).toBe(testUser.age);
+        expect(res.body[2]._id).toBe(testUser._id);
+    })
+
     test("GET /user/:id", async () => {
         const res = await request(app).get("/user/" + testUser._id).set('Authorization', 'Bearer ' + testUser.accessToken);
         expect(res.statusCode).toBe(200)

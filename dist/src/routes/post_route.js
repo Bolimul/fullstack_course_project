@@ -71,12 +71,13 @@ router.get("/", auth_middleware_1.default, post_controller_1.default.get.bind(po
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       requestBody:
-*          required: true
-*          content:
-*            application/json:
-*              schema:
-*                $ref: '#/components/schemas/Post'
+ *       - in: 'path'
+ *         name: 'post_id'
+ *         required: true
+ *         schema:
+ *           type: 'string'
+ *           example: '1I23d45'
+ *           description: 'Unique ID of the post to get'
  *     responses:
  *       '200':
  *         description: Post details

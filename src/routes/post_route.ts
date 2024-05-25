@@ -69,12 +69,13 @@ router.get("/",authMiddleware, PostController.get.bind(PostController));
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       requestBody:
-*          required: true
-*          content:
-*            application/json:
-*              schema:
-*                $ref: '#/components/schemas/Post'
+ *       - in: 'path'
+ *         name: 'post_id'
+ *         required: true
+ *         schema:
+ *           type: 'string'
+ *           example: '1I23d45'
+ *           description: 'Unique ID of the post to get'
  *     responses:
  *       '200':
  *         description: Post details

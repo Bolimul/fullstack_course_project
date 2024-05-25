@@ -38,8 +38,8 @@ const auth_controller_1 = __importDefault(require("../controllers/auth_controlle
 *                   type: string
 *                   description: The user password
 *           example:
-*               email: 'bob@gmail.com'
-*               password: '123456'
+*               email: 'testemail@gmail.com'
+*               password: 'rvh29vj21msH'
 *       Tokens:
 *           type: object
 *           required:
@@ -83,21 +83,21 @@ router.post("/google", auth_controller_1.default.googleSignin);
 * @swagger
 * /auth/login:
 *   post:
-*       summary: registers a new user
+*       summary: login a user
 *       tags: [Auth]
 *       requestBody:
 *           required: true
 *           content:
 *               application/json:
 *                   schema:
-*                       $ref: '#/components/schemas/User'
+*                       $ref: '#/components/schemas/Auth'
 *       responses:
-*           200:
-*               description: The acess & refresh tokens
-*               content:
-*                   application/json:
-*                       schema:
-*                           $ref: '#/components/schemas/Tokens'
+*          200:
+*              description: The logged in user
+*              content:
+*                  application/json:
+*                      schema:
+*                          $ref: '#/components/schemas/Tokens'
 */
 router.post("/login", auth_controller_1.default.login);
 /**

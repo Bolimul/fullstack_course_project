@@ -37,13 +37,14 @@ import authController from "../controllers/auth_controller"
 *                   type: string
 *                   description: The user password
 *           example:
-*               email: 'bob@gmail.com'
-*               password: '123456'
+*               email: 'testemail@gmail.com'
+*               password: 'rvh29vj21msH'
 *       Tokens:
 *           type: object
 *           required:
 *               - accessToken
 *               - refreshToken
+*               - userID
 *           properties:
 *               accessToken:
 *                   type: string
@@ -51,9 +52,13 @@ import authController from "../controllers/auth_controller"
 *               refreshToken:
 *                   type: string
 *                   description: The JWT refresh token
+*               userID:
+*                   type: string
+*                   description: The id of current user
 *           example:
-*               accessToken: '123cd123x1xx1'
-*               refreshToken: '134r2134cr1x3c'
+*               accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjUxYWYyMWU2Nzc4M2ZjNTdlMWE2Y2QiLCJpYXQiOjE3MTY2MzQ2MjAsImV4cCI6MTcxNjYzNjQyMH0.DKwXKiHXmftrctWVP4VNUVhAmRbRs-q8UHIS_N0WA2c'
+*               refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjUxYWYyMWU2Nzc4M2ZjNTdlMWE2Y2QiLCJpYXQiOjE3MTY2MzQ2MjB9.Udp4bzD3h1Hh2kjqazfXFY2fueLfpxQbZT1CqYafGtQ'
+*               userID: '6651af21e67783fc57e1a6cd'
 
 */
 
@@ -84,21 +89,21 @@ router.post("/google", authController.googleSignin);
 * @swagger
 * /auth/login:
 *   post:
-*       summary: registers a new user
+*       summary: login a user
 *       tags: [Auth]
 *       requestBody:
 *           required: true
 *           content:
 *               application/json:
 *                   schema:
-*                       $ref: '#/components/schemas/User'
+*                       $ref: '#/components/schemas/Auth'
 *       responses:
-*           200:
-*               description: The acess & refresh tokens
-*               content:
-*                   application/json:
-*                       schema:
-*                           $ref: '#/components/schemas/Tokens'
+*          200:
+*              description: The logged in user
+*              content:
+*                  application/json:
+*                      schema:
+*                          $ref: '#/components/schemas/Tokens'
 */
 router.post("/login", authController.login);
 /**
@@ -109,7 +114,7 @@ router.post("/login", authController.login);
 *     tags: [Auth]
 *     description: need to provide the refresh token in the auth header
 *     security:
-*       - bearerAuth: []
+*       - bearerAuth: []        
 *     responses:
 *       200:
 *         description: logout completed successfully
