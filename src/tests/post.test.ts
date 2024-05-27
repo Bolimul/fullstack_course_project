@@ -37,7 +37,7 @@ afterAll(async () => {
 
 
 describe("Post tests", () => {
-    const post = {
+    let post = {
         creator_id: testUser._id,
         post_id: null,
         post_title: "this is my post title",
