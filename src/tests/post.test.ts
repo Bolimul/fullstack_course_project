@@ -37,13 +37,6 @@ afterAll(async () => {
 
 
 describe("Post tests", () => {
-    test("Test Post get all", async() => {
-        const res = await request(app).get("/post").set('Authorization', 'Bearer ' + testUser.accessToken);
-        expect(res.statusCode).toBe(200);
-        const data = res.body;
-        expect(data).toEqual([]);
-    });
-
     const post = {
         creator_id: testUser._id,
         post_id: null,
@@ -63,6 +56,13 @@ describe("Post tests", () => {
         expect(res.statusCode).toBe(201);
         post.post_id = res.body._id
     })
+    
+    test("Test Post get all", async() => {
+        const res = await request(app).get("/post").set('Authorization', 'Bearer ' + testUser.accessToken);
+        expect(res.statusCode).toBe(200);
+        const data = res.body;
+        expect(data).toEqual([]);
+    });
 
     test("GET specific post", async() => {
         const res = await request(app).get("/post/" + post.post_id).set('Authorization', 'Bearer ' + testUser.accessToken);
